@@ -34,6 +34,9 @@ namespace WebAPI.Controllers
 
             Thread.Sleep(1000);
 
+            var DemoProduct = new Product { CategoryId = 1, ProductName = "DemoProduct", UnitPrice = 12, UnitsInStock = 1 };
+            //var resultTest = _productService.Add(DemoProduct);
+
             var result =  _productService.GetAll();
             if (result.Success)
             {
