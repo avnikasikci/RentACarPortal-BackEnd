@@ -21,7 +21,7 @@ Files in the views/pages folder are extended from the file called views/master.l
 ## Installation
 
 ```bash
-git clone https://github.com/hey-fk/personal-blog-template
+git clone https://github.com/avnikasikci/RentACarPortal
 cd personal-blog-template
 npm install or yarn install
 ```
@@ -56,7 +56,7 @@ dist
 
 ## Contributing
 
-Did you found a bug or got an idea for a new feature? Feel free to use the [issue tracker](https://github.com/hey-fk/personal-blog-template/issues) to let me know. Or make directly a [pull request](https://github.com/hey-fk/personal-blog-template/pulls).
+Did you found a bug or got an idea for a new feature? Feel free to use the [issue tracker](https://github.com/avnikasikci/personal-blog-template/issues) to let me know. Or make directly a [pull request](https://github.com/hey-fk/personal-blog-template/pulls).
 
 ## Credits
 
