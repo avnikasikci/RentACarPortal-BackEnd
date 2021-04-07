@@ -15,13 +15,23 @@ namespace DataAccess.Concrete.EntityFramework
             optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=DbRentACar;Trusted_Connection=true");           
         }
 
-        public DbSet<Product> Product { get; set; }
-        public DbSet<Category> Category { get; set; }
-        public DbSet<Customer> Customer { get; set; }
-        public DbSet<Order> Order { get; set; }
-        public DbSet<OperationClaim> OperationClaim { get; set; }
-        public DbSet<User> User { get; set; }
-        public DbSet<UserOperationClaim> UserOperationClaim { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OperationClaim> OperationClaims { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<UserOperationClaim> UserOperationClaims { get; set; }
+        //RentAcar
+        public DbSet<Brand> Brands { get; set; }
+        public DbSet<Car> Cars { get; set; }
+        public DbSet<CarImage> CarImages { get; set; }
+        public DbSet<Color> Colors { get; set; }
+        public DbSet<CreditCard> CreditCards { get; set; }       
+        public DbSet<Findeks> Findeks { get; set; }       
+        public DbSet<Rental> Rentals { get; set; }
+       
+       
 
     }
 }
