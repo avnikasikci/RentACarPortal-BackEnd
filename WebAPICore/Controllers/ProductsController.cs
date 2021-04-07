@@ -20,15 +20,19 @@ namespace WebAPI.Controllers
         //naming convention
         //IoC Container -- Inversion of Control
         IProductService _productService;
+        private readonly IUserService _userService;
 
-        public ProductsController(IProductService productService)
+        public ProductsController(IProductService productService, IUserService userService)
         {
             _productService = productService;
+            _userService = userService;
+
         }
 
         [HttpGet("getall")]
         public IActionResult GetAll()
         {
+            var _Users = _userService.GetAll();
             //Swagger
             //Dependency chain --
 
