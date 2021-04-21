@@ -103,8 +103,7 @@ namespace Business.Concrete
                 user.PasswordSalt = passwordSalt;
             }
 
-            _userDal.Update(user);
-
+            _userDal.Update(user);            
             var customer = _customerDal.Get(c => c.Id == userDetailForUpdate.CustomerId);
             customer.CompanyName = userDetailForUpdate.CompanyName;
             _customerDal.Update(customer);

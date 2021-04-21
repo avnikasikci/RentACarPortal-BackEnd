@@ -101,5 +101,3 @@ namespace WebAPI.Controllers
     }
 }
 
-
-//22.05 DERSTEYİZ

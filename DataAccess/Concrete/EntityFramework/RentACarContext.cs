@@ -12,7 +12,8 @@ namespace DataAccess.Concrete.EntityFramework
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=DbRentACar;Trusted_Connection=true");           
+            //optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=DbRentACar;Trusted_Connection=true");           
+            optionsBuilder.UseSqlServer(@"Data Source=.;Initial Catalog=DbGitRentACar;Integrated Security=true");           
         }
 
         public DbSet<Product> Products { get; set; }

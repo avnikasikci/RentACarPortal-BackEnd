@@ -10,5 +10,10 @@ namespace Entities.DTOs
         public string LastName { get; set; }
         public string Email { get; set; }
         public string CompanyName { get; set; }
+        public int userOperationClaimId { get; set; }
+        public int OperationClaimId { get; set; }
+        public string OperationClaimName { get; set; }
+        public string RoleName { get; set; }
+
     }
 }

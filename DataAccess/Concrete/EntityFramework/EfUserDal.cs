@@ -1,10 +1,9 @@
-﻿using Core.DataAccess.EntityFramework;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Core.DataAccess.EntityFramework;
 using Core.Entities.Concrete;
 using DataAccess.Abstract;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
+using Entities.Concrete;
 using Entities.DTOs;
 
 namespace DataAccess.Concrete.EntityFramework
@@ -21,8 +20,6 @@ namespace DataAccess.Concrete.EntityFramework
                              where userOperationClaim.UserId == user.Id
                              select new OperationClaim { Id = operationClaim.Id, Name = operationClaim.Name };
                 return result.ToList();
-                
-
             }
         }
 
@@ -30,10 +27,17 @@ namespace DataAccess.Concrete.EntityFramework
         {
             using (var context = new RentACarContext())
             {
+                //var AllUsers = context.Users.ToList().Where(x=>x.Email == userMail).ToList();
+                //var AllCustomer = context.Customers.ToList();
+                ////context.Customers.Add(new Customer { CompanyName = "Avni", UserId = AllUsers.FirstOrDefault().Id });
+                ////context.SaveChanges();
+                //var AllCustomer2 = context.Customers.ToList();
                 var result =
                     (from u in context.Users
                      join c in context.Customers
                          on u.Id equals c.UserId
+                     join userOperationClaim in context.UserOperationClaims
+                    on u.Id equals userOperationClaim.UserId
                      where u.Email == userMail
                      select new UserDetailDto
                      {
@@ -42,12 +46,17 @@ namespace DataAccess.Concrete.EntityFramework
                          FirstName = u.FirstName,
                          LastName = u.LastName,
                          Email = u.Email,
-                         CompanyName = c.CompanyName
-                     }).First();
-                return result;
+                         CompanyName = c.CompanyName,
+                         userOperationClaimId= userOperationClaim.Id,
+                         OperationClaimId= userOperationClaim.OperationClaimId,
+                         //OperationClaimName=context.OperationClaims.Where(x=>x.Id== userOperationClaim.OperationClaimId).FirstOrDefault()?.Name
+                     }).ToList();
+                result.ForEach(x => x.OperationClaimName = context.OperationClaims.Where(y => y.Id == x.userOperationClaimId).FirstOrDefault()?.Name);
+                result.ForEach(x => x.RoleName =x.OperationClaimName);
+                return result.FirstOrDefault();
+                //var _ReturnResult = result.Where(x => x.Email.Contains(userMail)).FirstOrDefault();                
+                //return _ReturnResult;
             }
         }
-
-
     }
 }

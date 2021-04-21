@@ -2,6 +2,7 @@
 using Core.Entities.Concrete;
 using Entities.DTOs;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.RegularExpressions;
 
 namespace WebAPI.Controllers
 {
@@ -38,6 +39,12 @@ namespace WebAPI.Controllers
         [HttpGet("getuserdetailbymail")]
         public IActionResult GetUserDetailByMail(string userMail)
         {
+            //var _test = userMail.IndexOf('"');
+            //var _test2 = Regex.Replace(userMail, "[\\\"'\\\\]", string.Empty);
+            //userMail = userMail.Replace("'\'", "");
+            userMail = Regex.Replace(userMail, "[\"\\\\]", string.Empty);
+
+
             var result = _userService.GetUserDetailByMail(userMail);
             if (result.Success) return Ok(result);
 
