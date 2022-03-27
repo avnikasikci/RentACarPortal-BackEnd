@@ -42,6 +42,10 @@ namespace Core.Utilities.Security.JWT
         public JwtSecurityToken CreateJwtSecurityToken(TokenOptions tokenOptions, User user,
             SigningCredentials signingCredentials, List<OperationClaim> operationClaims)
         {
+            //var header = new JwtHeader(signingCredentials);
+            //var payload = new JwtPayload(user.Id.ToString(), null, null, null, DateTime.Today.AddDays(1)); // 1 day
+            //var securityToken = new JwtSecurityToken(header, payload); //issuea direk id vermek için ama biz claimden gitmek istiyoruz./
+
             var jwt = new JwtSecurityToken(
                 issuer: tokenOptions.Issuer,
                 audience: tokenOptions.Audience,
@@ -49,6 +53,7 @@ namespace Core.Utilities.Security.JWT
                 notBefore: DateTime.Now,
                 claims: SetClaims(user, operationClaims),
                 signingCredentials: signingCredentials
+                
             );
             return jwt;
         }
@@ -62,6 +67,22 @@ namespace Core.Utilities.Security.JWT
             claims.AddRoles(operationClaims.Select(c => c.Name).ToArray());
 
             return claims;
+        }
+        public JwtSecurityToken Verify(string jwt)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var securityKey = SecurityKeyHelper.CreateSecurityKey(_tokenOptions.SecurityKey);
+
+            var key = Encoding.ASCII.GetBytes(_tokenOptions.SecurityKey);
+            tokenHandler.ValidateToken(jwt, new TokenValidationParameters
+            {
+                IssuerSigningKey = new SymmetricSecurityKey(key),
+                ValidateIssuerSigningKey = true,
+                ValidateIssuer = false,
+                ValidateAudience = false
+            }, out SecurityToken validatedToken);
+
+            return (JwtSecurityToken)validatedToken;
         }
     }
 }

@@ -1,7 +1,10 @@
 ﻿using Business.Abstract;
 using Core.Entities.Concrete;
+using Core.Utilities.Security.JWT;
 using Entities.DTOs;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Security.Claims;
 using System.Text.RegularExpressions;
 
 namespace WebAPI.Controllers
@@ -11,10 +14,46 @@ namespace WebAPI.Controllers
     public class UsersController : Controller
     {
         private readonly IUserService _userService;
+        private ITokenHelper _tokenHelper;
 
-        public UsersController(IUserService userService)
+
+        public UsersController(IUserService userService, ITokenHelper tokenHelper)
         {
             _userService = userService;
+            _tokenHelper = tokenHelper;
+
+        }
+
+        [HttpGet("getuser")]
+        public IActionResult GetUser()
+        {
+            try
+            {
+                var email = string.Empty;
+                if (HttpContext.User.Identity is ClaimsIdentity identity)
+                {
+                    email = identity.FindFirst(ClaimTypes.Name).Value;
+                }
+
+                var token2 = Request.Headers["Authorization"].ToString();
+                token2 = token2.ToString().Replace("Bearer","").Trim();
+                var jwt = Request.Cookies["jwt"];
+
+                /*var token = new JwtHelper.Verify(jwt);*/
+                //var token = new JwtHelper.Verify(jwt);
+                var token = _tokenHelper.Verify(token2);
+                //var tokenBase = _tokenHelper.Verify(token2);
+
+                int userId = int.Parse(token.Issuer);
+
+                var user = _userService.GetById(userId);
+
+                return Ok(user);
+            }
+            catch (Exception e)
+            {
+                return Unauthorized(e.Message);
+            }
         }
 
         [HttpGet("getbyid")]
